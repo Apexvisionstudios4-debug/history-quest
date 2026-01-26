@@ -1,12 +1,607 @@
+                
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>History Quest</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Quest Game - قيد التطوير</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --gold: #fbbf24;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { border-color: var(--primary); }
+            50% { border-color: var(--accent); }
+            100% { border-color: var(--primary); }
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        /* خريطة التطوير */
+        .dev-roadmap {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .dev-roadmap h2 {
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .roadmap-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+        }
+        
+        .roadmap-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            transform: translateY(-50%);
+            z-index: 1;
+            border-radius: 2px;
+        }
+        
+        .phase {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 180px;
+            z-index: 2;
+            position: relative;
+            border: 2px solid;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .phase:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .phase.done {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .phase.current {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+            animation: glow 1.5s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+            to { box-shadow: 0 0 20px rgba(139, 92, 246, 0.8); }
+        }
+        
+        .phase:not(.done):not(.current) {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* نظام التسجيل المبكر */
+        .early-access-section {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.1),
+                rgba(59, 130, 246, 0.1)
+            );
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            text-align: center;
+        }
+        
+        .early-access-section h2 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .registration-form {
+            max-width: 500px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gold);
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Cairo', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+        }
+        
+        /* عداد المجتمع */
+        .community-tracker {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px solid var(--accent);
+        }
+        
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .tracker-item {
+            padding: 20px;
+        }
+        
+        .tracker-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* المؤثرات الصوتية */
+        .sound-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .sound-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.8);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .sound-btn:hover {
+            transform: scale(1.1);
+            background: rgba(139, 92, 246, 1);
+        }
+        
+        /* الإشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* التجاوبية */
+        @media (max-width: 768px) {
+            .roadmap-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .roadmap-container::before {
+                display: none;
+            }
+            
+            .phase {
+                width: 100%;
+            }
+            
+            .sound-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .sound-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <h1>🎮 History Quest</h1>
-  <p>الموقع يعمل بنجاح 🚀</p>
-  <p>Apex Vision Studios</p>
-</body>
-</html>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>History Quest</span>
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <p class="subtitle">لعبة الألغاز التاريخية - قيد التطوير</p>
+            <p style="color: var(--gold); font-size: 1.1rem;">
+                <i class="fas fa-hourglass-half"></i>
+                قريباً... كن من أول المستكشفين!
+            </p>
+        </header>
+
+        <!-- خريطة التطوير -->
+        <section class="dev-roadmap">
+            <h2><i class="fas fa-road"></i> خريطة التطوير</h2>
+            <div class="roadmap-container">
+                <div class="phase done">
+                    <h3>✅ فكرة اللعبة</h3>
+                    <p style="color: #94a3b8; margin-top: 8px;">اكتمل</p>
+                </div>
+                <div class="phase current">
+                    <h3>🔄 تصميم الواجهة</h3>
+                    <p style="color: var(--primary); margin-top: 8px;">جاري العمل</p>
+                </div>
+                <div class="phase">
+                    <h3>⏳ برمجة الألعاب</h3>
+                    <p style="color: #94a3b8; margin-top: 8px;">قادم</p>
+                </div>
+                <div class="phase">
+                    <h3>📅 اختبار بيتا</h3>
+                    <p style="color: #94a3b8; margin-top: 8px;">قادم</p>
+                </div>
+                <div class="phase">
+                    <h3>🚀 الإطلاق الرسمي</h3>
+                    <p style="color: #94a3b8; margin-top: 8px;">قادم</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- نظام التسجيل المبكر -->
+        <section class="early-access-section">
+            <h2><i class="fas fa-gem"></i> التسجيل المبكر</h2>
+            <p style="font-size: 1.2rem; color: #cbd5e1; max-width: 800px; margin: 0 auto 30px;">
+                سجل الآن واحصل على مزايا حصرية عند إطلاق اللعبة!
+            </p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🪙</div>
+                    <h3>100 جوهرة مجانية</h3>
+                    <p style="color: #cbd5e1; margin-top: 10px;">مكافأة خاصة للمسجلين المبكرين</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">👑</div>
+                    <h3>شارة "المبكرون"</h3>
+                    <p style="color: #cbd5e1; margin-top: 10px;">شارة حصرية تظهر بجانب اسمك</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎁</div>
+                    <h3>نسخة بيتا مجانية</h3>
+                    <p style="color: #cbd5e1; margin-top: 10px;">اختر اللعبة قبل الجميع</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💎</div>
+                    <h3>خصم 30%</h3>
+                    <p style="color: #cbd5e1; margin-top: 10px;">على أول اشتراك مميز</p>
+                </div>
+            </div>
+
+            <div class="registration-form">
+                <h3 style="color: var(--accent); margin-bottom: 25px; text-align: center;">
+                    <i class="fas fa-user-plus"></i> سجل بياناتك
+                </h3>
+                
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> الاسم الكامل</label>
+                    <input type="text" id="name" placeholder="أدخل اسمك..." autocomplete="name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                    <input type="email" id="email" placeholder="example@email.com" autocomplete="email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="country"><i class="fas fa-globe"></i> الدولة</label>
+                    <select id="country">
+                        <option value="">اختر دولتك</option>
+                        <option value="MA">المغرب</option>
+                        <option value="SA">السعودية</option>
+                        <option value="AE">الإمارات</option>
+                        <option value="EG">مصر</option>
+                        <option value="DZ">الجزائر</option>
+                        <option value="QA">قطر</option>
+                        <option value="KW">الكويت</option>
+                        <option value="BH">البحرين</option>
+                        <option value="OM">عمان</option>
+                        <option value="JO">الأردن</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="platform"><i class="fas fa-mobile-alt"></i> المنصة المفضلة</label>
+                    <select id="platform">
+                        <option value="">اختر المنصة</option>
+                        <option value="android">Android</option>
+                        <option value="ios">iOS</option>
+                        <option value="web">متصفح الويب</option>
+                        <option value="pc">كمبيوتر</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-gold" onclick="registerEarlyAccess()">
+                    <i class="fas fa-rocket"></i> سجل الآن واحصل على المزايا!
+                </button>
+                
+                <p style="text-align: center; color: #94a3b8; margin-top: 20px; font-size: 0.9rem;">
+                    <i class="fas fa-lock"></i> بياناتك محمية ولن يتم مشاركتها
+                </p>
+            </div>
+        </section>
+
+        <!-- عداد المجتمع -->
+        <section class="community-tracker">
+            <h2 style="text-align: center; color: var(--accent); margin-bottom: 30px;">
+                <i class="fas fa-users"></i> مجتمعنا ينمو
+            </h2>
+            
+            <div class="tracker-grid">
+                <div class="tracker-item">
+                    <div style="font-size: 1.1rem; color: #cbd5e1;">
+                        <i class="fas fa-user-plus"></i> المسجلين المبكرين
+                    </div>
+                    <div class="tracker-value" id="earlyRegistrations">0</div>
+                </div>
+                
+                <div class="tracker-item">
+                    <div style="font-size: 1.1rem; color: #cbd5e1;">
+                        <i class="fas fa-bullseye"></i> الهدف القادم
+                    </div>
+                    <div class="tracker-value">2,000</div>
+                </div>
+                
+                <div class="tracker-item">
+                    <div style="font-size: 1.1rem; color: #cbd5e1;">
+                        <i class="fas fa-chart-line"></i> النسبة المكتملة
+                    </div>
+                    <div class="tracker-value" id="completionPercentage">0%</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            
+            <p style="text-align: center; color: var(--gold); margin-top: 20px;">
+                <i class="fas fa-trophy"></i>
+                عند وصولنا لـ 2,000 مسجل: إطلاق نسخة بيتا مبكرة للجميع!
+            </p>
+        </section>
+    </div>
+
+    <!-- عناصر التحكم الصوتية -->
+    <div class="sound-controls">
+        <button class="sound-btn" onclick="playHoverSound()" title="صوت التمرير">
+            <i class="fas fa-mouse-pointer"></i>
+        </button>
+        <button class="sound-btn" onclick="playClickSound()" title="صوت النقر">
+            <i class="fas fa-hand-pointer"></i>
+        </button>
+        <button class="sound-btn" onclick="playSuccessSound()" title="صوت النجاح">
+            <i class="fas fa-check-circle"></i>
+        </button>
+        <button class="sound-btn" onclick="toggleBackgroundMusic()" title="الموسيقى التصويرية">
+            <i class="fas fa-music" id="musicIcon"></i>
+        </button>
+    </div>
+
+    <!-- الإشعارات -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">تمت العملية بنجاح!</span>
+    </div>
+
+    <script>
+        // نظام التسجيل المبكر
+        cla
