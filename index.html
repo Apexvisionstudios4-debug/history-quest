@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>WarZone X | Apex Vision Studios</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+--primary:#7c3aed;
+--secondary:#dc2626;
+--accent:#10b981;
+--gold:#fbbf24;
+--dark:#020617;
+--light:#f8fafc;
+}
+
+*{box-sizing:border-box;font-family:'Cairo',sans-serif}
+
+body{
+margin:0;
+background:radial-gradient(circle at top,#1e1b4b,#020617 70%);
+color:var(--light);
+}
+
+.container{max-width:1100px;margin:auto;padding:20px}
+
+header{
+text-align:center;
+padding:40px;
+border:2px solid var(--primary);
+border-radius:25px;
+margin-bottom:50px;
+background:rgba(0,0,0,.4);
+}
+
+.logo{
+font-size:3rem;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:15px;
+}
+
+.logo span{
+background:linear-gradient(135deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-weight:900;
+}
+
+.subtitle{color:#cbd5e1;margin-top:10px}
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:16px 35px;
+border-radius:50px;
+border:none;
+font-size:1.1rem;
+font-weight:bold;
+cursor:pointer;
+text-decoration:none;
+color:#000;
+background:linear-gradient(135deg,var(--gold),#f59e0b);
+box-shadow:0 10px 30px rgba(251,191,36,.5);
+}
+
+section{
+background:rgba(255,255,255,.05);
+border-radius:25px;
+padding:35px;
+margin-bottom:45px;
+border:1px solid rgba(255,255,255,.1);
+}
+
+h2{text-align:center;color:var(--gold);margin-bottom:30px}
+
+.form-group{margin-bottom:20px;text-align:right}
+
+label{display:block;margin-bottom:8px;color:var(--gold)}
+
+input,select{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,.2);
+background:rgba(255,255,255,.08);
+color:white;
+}
+
+.community{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+text-align:center;
+}
+
+.value{font-size:2.5rem;font-weight:bold;color:var(--gold)}
+
+.progress-bar{
+height:22px;
+background:rgba(255,255,255,.1);
+border-radius:15px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,var(--accent),var(--primary));
+transition:.6s;
+}
+
+.partner-terms ul{list-style:none;padding:0;line-height:2}
+.partner-terms li i{color:var(--accent);margin-left:8px}
+
+.note{
+margin-top:25px;
+padding:18px;
+border:1px solid var(--gold);
+border-radius:15px;
+color:var(--gold);
+text-align:center;
+background:rgba(251,191,36,.1);
+font-weight:bold;
+}
+
+.notification{
+position:fixed;
+top:25px;
+right:25px;
+background:var(--accent);
+padding:18px 28px;
+border-radius:15px;
+transform:translateX(200%);
+transition:.4s;
+z-index:999;
+font-weight:bold;
+}
+
+.notification.show{transform:translateX(0)}
+
+footer{text-align:center;color:#94a3b8;font-size:.9rem;margin:40px 0 15px}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<div class="logo">
+<i class="fas fa-skull-crossbones"></i>
+<span>WarZone X</span>
+<i class="fas fa-radiation"></i>
+</div>
+<p class="subtitle">أكشن • رعب • أونلاين • فرق 4 لاعبين</p>
+<p style="color:var(--gold)">Apex Vision Studios</p>
+
+<a class="btn" target="_blank"
+href="https://docs.google.com/forms/d/e/1FAIpQLSf3VNiOdX-eu6i4CYRX9qZlq3g9MrZMDRCDqaT9TXbN3k-wZQ/viewform?usp=dialog">
+📝 التسجيل الرسمي
+</a>
+</header>
+
+<section>
+<h2>🎮 إنشاء حساب داخل الموقع</h2>
+
+<div class="form-group">
+<label>اسم اللاعب</label>
+<input id="name">
+</div>
+
+<div class="form-group">
+<label>البريد الإلكتروني</label>
+<input id="email" type="email">
+</div>
+
+<div class="form-group">
+<label>الدولة</label>
+<select id="country">
+<option value="">اختر</option>
+<option>المغرب</option>
+<option>السعودية</option>
+<option>مصر</option>
+<option>الإمارات</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>المنصة</label>
+<select id="platform">
+<option value="">اختر</option>
+<option>PC</option>
+<option>Android</option>
+<option>iOS</option>
+<option>Web</option>
+</select>
+</div>
+
+<button class="btn" onclick="register()">🚀 إنشاء الحساب</button>
+</section>
+
+<section>
+<h2>🌍 مجتمع WarZone X</h2>
+
+<div class="community">
+<div><p>المسجلون</p><div class="value" id="count">0</div></div>
+<div><p>الهدف</p><div class="value">2000</div></div>
+<div><p>النسبة</p><div class="value" id="percent">0%</div></div>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
+</section>
+
+<section class="partner-terms">
+<h2>🟣 شروط برنامج الشراكة</h2>
+<ul>
+<li><i class="fas fa-check-circle"></i> الالتزام بالقوانين</li>
+<li><i class="fas fa-check-circle"></i> نشاط مستمر</li>
+<li><i class="fas fa-check-circle"></i> يمنع الغش</li>
+<li><i class="fas fa-check-circle"></i> تقييم شهري</li>
+<li><i class="fas fa-check-circle"></i> جواهر شهرية</li>
+</ul>
+
+<div class="note">💎 الشراكة امتياز خاص – الإدارة تملك حق الإيقاف</div>
+</section>
+
+<footer>© 2026 Apex Vision Studios – WarZone X</footer>
+
+</div>
+
+<div class="notification" id="notify"></div>
+
+<script>
+const KEY="WZX_COUNT";
+
+window.onload=()=>update(localStorage.getItem(KEY)||0);
+
+function register(){
+const name=document.getElementById("name").value.trim();
+const email=document.getElementById("email").value.trim();
+const country=document.getElementById("country").value;
+const platform=document.getElementById("platform").value;
+
+if(!name||!email||!country||!platform){
+notify("❌ أكمل جميع الحقول");
+return;
+}
+
+let c=(+localStorage.getItem(KEY)||0)+1;
+localStorage.setItem(KEY,c);
+update(c);
+notify(`🎉 اللاعب ${name} تم إنشاء حسابك في WarZone X`);
+["name","email","country","platform"].forEach(id=>document.getElementById(id).value="");
+}
+
+function update(c){
+document.getElementById("count").textContent=c;
+let p=Math.min((c/2000)*100,100);
+document.getElementById("percent").textContent=p.toFixed(1)+"%";
+document.getElementById("bar").style.width=p+"%";
+}
+
+function notify(t){
+const n=document.getElementById("notify");
+n.textContent=t;
+n.classList.add("show");
+setTimeout(()=>n.classList.remove("show"),4000);
+}
+</script>
+
+</body>
+</html>
